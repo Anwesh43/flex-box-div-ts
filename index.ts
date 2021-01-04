@@ -2,7 +2,7 @@ const w : number = window.innerWidth
 const h : number = window.innerHeight 
 const background : string = 'indigo'
 const scGap : number = 0.02 
-const delay : number = 20
+const delay : number = 35
 
 class State {
 
@@ -70,6 +70,9 @@ class FlexDiv {
                 animator.start(() => {
                     this.update(() => {
                         animator.stop()
+                        this.update(() => {
+
+                        })
                     })
                 })
             })
@@ -100,6 +103,8 @@ class FlexDivContainer {
     initStyle() {
         this.div.style.display = 'flex'
         this.div.style.flexDirection = 'row'
+        this.div.style.alignItems = 'flex-start'
+        this.div.style.justifyContent = 'space-between'
         document.body.appendChild(this.div)
     }
 
@@ -111,3 +116,4 @@ class FlexDivContainer {
     }
 }
 
+const flexDivContainer : FlexDivContainer = new FlexDivContainer(6)
