@@ -49,3 +49,34 @@ class Animator {
 }
 
 const animator : Animator = new Animator()
+
+class FlexDiv {
+
+    state : State = new State()
+    div : HTMLDivElement = document.createElement('div')
+    
+    init() {
+        const size = Math.min(w, h) / 10 
+        const width : string = `${size}px`
+        const height : string = `${size}px`
+        this.div.style.width = width 
+        this.div.style.height = height 
+        this.div.style.background = background 
+        this.div.onclick = () => {
+            this.state.startUpdating(() => {
+                animator.start(() => {
+                    this.update(() => {
+                        animator.stop()
+                    })
+                })
+            })
+        }
+        document.body.appendChild(this.div)
+    }
+
+    update(cb : Function) {
+        const size : number = Math.min(w, h) / 10 
+        this.div.style.height = `${size + (h - size) * Math.sin(Math.PI * this.state.scale)}px`
+        this.state.update(cb)
+    }
+}
