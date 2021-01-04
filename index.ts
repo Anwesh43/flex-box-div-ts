@@ -2,6 +2,7 @@ const w : number = window.innerWidth
 const h : number = window.innerHeight 
 const background : string = 'indigo'
 const scGap : number = 0.02 
+const delay : number = 20
 
 class State {
 
@@ -26,3 +27,25 @@ class State {
         }
     }
 }
+
+class Animator {
+
+    animated : boolean = false 
+    interval : number 
+
+    start(cb : Function) {
+       if (!this.animated) {
+          this.animated = true 
+          this.interval = setInterval(cb, delay)
+       }
+    }
+
+    stop() {
+       if (this.animated) {
+          this.animated = false 
+          clearInterval(this.interval)
+       }
+    }
+}
+
+const animator : Animator = new Animator()
