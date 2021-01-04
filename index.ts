@@ -54,14 +54,17 @@ class FlexDiv {
 
     state : State = new State()
     div : HTMLDivElement = document.createElement('div')
-    
+    constructor(i : number) {
+        this.div.innerHTML = `${i}`
+        this.init()
+    }
     init() {
         const size = Math.min(w, h) / 10 
         const width : string = `${size}px`
         const height : string = `${size}px`
         this.div.style.width = width 
         this.div.style.height = height 
-        this.div.style.background = background 
+        this.div.style.border = `1px solid ${background}`
         this.div.onclick = () => {
             this.state.startUpdating(() => {
                 animator.start(() => {
@@ -71,7 +74,6 @@ class FlexDiv {
                 })
             })
         }
-        document.body.appendChild(this.div)
     }
 
     update(cb : Function) {
@@ -79,4 +81,33 @@ class FlexDiv {
         this.div.style.height = `${size + (h - size) * Math.sin(Math.PI * this.state.scale)}px`
         this.state.update(cb)
     }
+
+    appendTo(parent : HTMLDivElement) {
+        parent.appendChild(this.div)
+    }
 }
+
+class FlexDivContainer {
+
+    div : HTMLDivElement = document.createElement('div')
+    flexDivs : Array<FlexDiv> = []
+
+    constructor(n : number) {
+        this.initStyle()
+        this.createDivs(n)
+    }
+
+    initStyle() {
+        this.div.style.display = 'flex'
+        this.div.style.flexDirection = 'row'
+        document.body.appendChild(this.div)
+    }
+
+    createDivs(n : number) {
+        for (let i = 0; i < n; i++) {
+            const div : FlexDiv = new FlexDiv(i)
+            div.appendTo(this.div)
+        }
+    }
+}
+
